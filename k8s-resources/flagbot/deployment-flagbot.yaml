@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flagbot
+  namespace: flagbot
+spec:
+  selector:
+    matchLabels:
+      app: flagbot
+  template:
+    metadata:
+      labels:
+        app: flagbot
+    spec:
+      containers:
+      - name: flagbot
+        image: ghcr.io/scubroncosec/flagbot:master
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        env:
+        - name: LOG_LEVEL
+          value: "debug"
+        envFrom:
+          - secretRef:
+              name: flagbot-token

@@ -1,0 +1,8 @@
+apiVersion: networking.gke.io/v1beta1
+kind: FrontendConfig
+metadata:
+  name: web-challenges-frontend-config
+  namespace: web-challenges
+spec:
+  redirectToHttps:
+    enabled: true

@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: ctfd
+  name: ctfd
+  labels:
+    ctfd: ctfd
+    app: ctfd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ctfd
+  template:
+    metadata:
+      labels:
+        ctfd: ctfd
+        app: ctfd
+    spec:
+      containers:
+      - env:
+        - name: ACCESS_LOG
+          value: '-'
+        - name: DATABASE_PROTOCOL
+          value: mysql+pymysql
+        - name: DATABASE_HOST
+          value: ctfd-mysql-db
+        - name: DATABASE_PORT
+          value: "3306"
+        - name: DATABASE_USER
+          value: ctfd
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ctfd-mysql-passwords
+              key: password
+        - name: ERROR_LOG
+          value: '-'
+        - name: LOG_FOLDER
+          value: /var/log/CTFd
+        - name: REDIS_URL
+          value: redis://ctfd-redis-cache:6379
+        - name: REVERSE_PROXY
+          value: "false"
+        - name: UPLOAD_FOLDER
+          value: /var/uploads
+        - name: WORKERS
+          value: "1"
+        image: us-west1-docker.pkg.dev/broncoctf-2024/broncoctf-2024/ctfd:latest
+        imagePullPolicy: "Always"
+        name: ctfd
+        readinessProbe:
+          httpGet:
+            path: "/themes/core/static/css/main.dev.css"
+            port: 8000
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          successThreshold: 1
+          timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: "/themes/core/static/css/main.dev.css"
+            port: 8000
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          successThreshold: 1
+          timeoutSeconds: 5
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/log/CTFd
+          name: ctf-pv-logs
+        - mountPath: /var/uploads
+          name: ctfd-pv-uploads
+      restartPolicy: Always
+      serviceAccountName: ""
+      automountServiceAccountToken: false
+      securityContext:
+        fsGroup: 1001
+      volumes:
+      - name: ctf-pv-logs
+        persistentVolumeClaim:
+          claimName: ctf-pv-logs
+      - name: ctfd-pv-uploads
+        persistentVolumeClaim:
+          claimName: ctfd-pv-uploads

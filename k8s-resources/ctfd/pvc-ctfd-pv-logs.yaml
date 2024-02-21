@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: ctfd
+  labels:
+    ctfd: ctf-pv
+    app: ctf-pv-logs
+  name: ctf-pv-logs
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi

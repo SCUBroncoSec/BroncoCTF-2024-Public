@@ -1,0 +1,13 @@
+## Blue Boy Storage
+
+# Target Difficulty: Easy (200 pts)
+
+# Description
+
+This blue boy saved something on his home planet but cannot seem to find it. Can you help him?
+
+Note: flag wrapped in broncoctf{}
+
+# Flag
+
+broncoctf{ab4_d3_4ba_d1e_1m_blu3}

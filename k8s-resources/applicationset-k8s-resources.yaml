@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: k8s-resources
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/SCUBroncoSec/BroncoCTF-2024-Internal
+        revision: HEAD
+        directories:
+          - path: k8s-resources/*
+  template:
+    metadata:
+      name: '{{path.basenameNormalized}}'
+    spec:
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{path.basename}}'
+      project: default
+      source:
+        repoURL: https://github.com/SCUBroncoSec/BroncoCTF-2024-Internal
+        targetRevision: HEAD
+        path: '{{path}}'
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true

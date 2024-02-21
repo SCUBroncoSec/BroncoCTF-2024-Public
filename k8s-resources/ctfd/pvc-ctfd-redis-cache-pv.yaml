@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: ctfd
+  name: ctfd-redis-cache-pv
+  labels:
+    ctfd: redis-pv
+    app: ctfd-redis-cache-pv
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi

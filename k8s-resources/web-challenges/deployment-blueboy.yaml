@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blueboy
+spec:
+  selector:
+    matchLabels:
+      app: blueboy
+  template:
+    metadata:
+      labels:
+        app: blueboy
+    spec:
+      containers:
+      - name: blueboy
+        image: us-west1-docker.pkg.dev/broncoctf-2024/broncoctf-2024/blueboy:latest

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: ctfd
+  name: ctfd-redis-cache
+  labels:
+    ctfd: redis
+    app: ctfd-redis-cache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ctfd-redis-cache
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        ctfd: redis
+        app: ctfd-redis-cache
+    spec:
+      containers:
+      - image: redis:6.2
+        imagePullPolicy: "Always"
+        command:
+          - redis-server
+          - "/config/redis.conf"
+        name: ctfd-redis-cache
+        resources:
+          limits:
+            cpu: "0.1"
+            memory: "1.1G"
+        volumeMounts:
+        - mountPath: /data
+          name: ctfd-redis-cache-pv
+        - mountPath: /config
+          name: config
+      restartPolicy: Always
+      serviceAccountName: ""
+      automountServiceAccountToken: false
+      volumes:
+      - name: ctfd-redis-cache-pv
+        persistentVolumeClaim:
+          claimName: ctfd-redis-cache-pv
+      - name: config
+        configMap:
+          name: ctfd-redis-config
+          items:
+          - key: redis-config
+            path: redis.conf

@@ -1,0 +1,8 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: argocd-tls-cert
+  namespace: argocd
+spec:
+  domains:
+    - argocd.k8s.broncoctf.xyz

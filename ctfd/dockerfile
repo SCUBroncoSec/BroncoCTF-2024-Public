@@ -1,0 +1,20 @@
+FROM ctfd/ctfd
+
+# Run installs as root
+USER root
+
+# Make sure git is installed
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Go back to CTFd user
+USER 1001
+
+# Pull theme from git
+RUN git clone https://github.com/chainflag/ctfd-neon-theme.git /opt/CTFd/CTFd/themes/ctfd-neon-theme
+
+# Install ctftime scores plugin
+RUN git clone https://github.com/SunshineCTF/CTFd-scores-ctftime.git /opt/CTFd/CTFd/plugins/CTFd-scores-ctftime

@@ -1,0 +1,9 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: ctfd-tls-cert
+  namespace: ctfd
+spec:
+  domains:
+    - www.broncoctf.xyz
+    - broncoctf.xyz

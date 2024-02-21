@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: serpant
+spec:
+  selector:
+    matchLabels:
+      challenge: serpant
+  template:
+    metadata:
+      labels:
+        challenge: serpant
+        app: nc-chals
+    spec:
+      containers:
+      - name: serpant
+        image: us-west1-docker.pkg.dev/broncoctf-2024/broncoctf-2024/serpant:latest
+        ports:
+          - containerPort: 8080
+            name: serpant-nc

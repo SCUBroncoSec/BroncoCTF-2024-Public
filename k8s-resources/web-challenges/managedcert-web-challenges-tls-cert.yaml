@@ -1,0 +1,8 @@
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: web-challenges-tls-cert
+  namespace: web-challenges
+spec:
+  domains:
+    - blue.web.broncoctf.xyz
