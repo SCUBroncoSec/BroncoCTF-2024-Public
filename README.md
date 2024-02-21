@@ -22,7 +22,7 @@ The reason we do all of this is to make it easy for current board members to con
 
 ## Contributing to this repo
 
-If you have write-ups, please add then to the Write-Ups Folder under your a folder with your team/GitHub username. Or add a link via the writeups.md
+If you have write-ups, please add then to the writeups folder under your a folder with your team/GitHub username. Or add a link via the writeups.md
 
 Other PRs will not be merged.
 
